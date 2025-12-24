@@ -1,7 +1,7 @@
 import time
 import pandas as pd
 import streamlit as st
-from gsheet import save_login
+# from gsheet import save_login
 from Master import excel_merge, pdf_merge, pdf_split,excel_split
 
 # ---------------- PAGE CONFIG ----------------
@@ -26,7 +26,7 @@ if not st.session_state.login:
             st.session_state.user_name = name
             st.session_state.user_email = email
 
-            save_login(name, email)   # save to Google Sheet
+            # save_login(name, email)   # save to Google Sheet
 
             st.success("Login Successful ✅")
             st.rerun()
@@ -204,3 +204,4 @@ else:
                         f,
                         file_name=output.split("/")[-1]
                     )
+
