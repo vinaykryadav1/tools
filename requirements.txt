@@ -1,13 +1,9 @@
 streamlit
-os
-sys
-math
 PyPDF2
-shutil
 zipfile
 inflect
 numpy
 sympy
 num2words
-re
 pandas
+
