@@ -1,9 +1,7 @@
 streamlit
 PyPDF2
-zipfile
 inflect
 numpy
 sympy
 num2words
 pandas
-
