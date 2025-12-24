@@ -5,3 +5,4 @@ numpy
 sympy
 num2words
 pandas
+openpyxl
