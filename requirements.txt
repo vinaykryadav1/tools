@@ -6,3 +6,4 @@ sympy
 num2words
 pandas
 openpyxl
+xlsxwriter
