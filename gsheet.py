@@ -9,7 +9,7 @@ def save_login(name, email):
     ]
 
     creds = ServiceAccountCredentials.from_json_keyfile_name(
-        "Credentials.json",
+        "tials.json",
         scope
     )
 
@@ -21,3 +21,4 @@ def save_login(name, email):
         email,
         datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     ])
+
