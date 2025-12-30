@@ -57,7 +57,7 @@ else:
     if script == "Excel Merge":
         files = st.file_uploader(
             "Upload Excel files",
-            type=["xlsx"],
+            type=["xlsx","csv"],
             accept_multiple_files=True
         )
 
@@ -232,3 +232,4 @@ else:
                 #         file_name="excel_split_output.xlsx",
                 #         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 #     )
+
