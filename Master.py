@@ -18,10 +18,32 @@ from PyPDF2 import PdfMerger
 OUTPUT_DIR = "output"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+# def excel_merge(files):
+#     dfs = [pd.read_excel(f) for f in files]
+#     final_df = pd.concat(dfs, ignore_index=True)
+
+#     output_path = "output/merged_excel.xlsx"
+#     final_df.to_excel(output_path, index=False)
+
+#     return output_path
+
 def excel_merge(files):
-    dfs = [pd.read_excel(f) for f in files]
+    dfs = []
+
+    for f in files:
+        if f.name.endswith('.xlsx'):
+            df = pd.read_excel(f)
+            dfs.append(df)
+        elif f.name.endswith('.csv'):
+            df = pd.read_csv(f)
+            dfs.append(df)
+
+    if not dfs:
+        raise ValueError("No valid Excel or CSV files found")
+
     final_df = pd.concat(dfs, ignore_index=True)
 
+    # os.makedirs("output", exist_ok=True)
     output_path = "output/merged_excel.xlsx"
     final_df.to_excel(output_path, index=False)
 
@@ -190,4 +212,5 @@ def excel_split(
                 zipf.writestr(f"{value}.xlsx", excel_buffer.read())
 
         zip_buffer.seek(0)
+
         return zip_buffer   # ✅ ZIP
