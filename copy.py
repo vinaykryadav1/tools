@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 # from gsheet import save_login
 from Master import excel_merge, pdf_merge, pdf_split,excel_split
+from SEO_Tools from run_seo_downloader
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(page_title="Automation Tool", layout="centered")
@@ -50,7 +51,7 @@ else:
     # 1️⃣ Script Selection
     script = st.selectbox(
         "Select Script",
-        ["Excel Merge", "PDF Merge","PDF Split","Excel Split"]
+        ["Excel Merge", "PDF Merge","PDF Split","Excel Split","PDF Downloader"]
     )
 
     # 2️⃣ File Upload
@@ -225,11 +226,35 @@ else:
                                 file_name="excel_split_files.zip",
                                 mime="application/zip"
                             )
-                # with open(output, "rb") as f:
-                #     st.download_button(
-                #         label="⬇ Download Output",
-                #         data=f,
-                #         file_name="excel_split_output.xlsx",
-                #         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                #     )
+        
+        elif tool == "PDF Downloader":
 
+        excel_file = st.file_uploader("Upload Excel File", type=["xlsx"])
+
+        if excel_file:
+            df = pd.read_excel(excel_file)
+            st.dataframe(df.head())
+
+            loan_col = st.selectbox("Loan ID Column", df.columns)
+            url_col = st.selectbox("PDF URL Column", df.columns)
+            folder_cols = st.multiselect("Folder Structure Columns", df.columns)
+
+            if st.button("🚀 Start Download"):
+                with st.spinner("Downloading & Zipping PDFs..."):
+                    result = run_seo_downloader(
+                        excel_file=excel_file,
+                        loan_id_col=loan_col,
+                        url_col=url_col,
+                        folder_columns=folder_cols
+                    )
+
+                st.success("✅ Download Completed")
+                st.write("Downloaded:", result["downloaded"])
+                st.write("Failed:", result["failed_count"])
+
+                with open(result["zip_path"], "rb") as f:
+                    st.download_button("⬇ Download ZIP", f, file_name="PDFs.zip")
+
+                if result.get("failed_excel"):
+                        with open(result["failed_excel"], "rb") as f:
+                            st.download_button("⬇ Download Failed Records",f,file_name="FAILED_RECORDS.xlsx")
