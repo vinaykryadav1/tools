@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 # from gsheet import save_login
 from Master import excel_merge, pdf_merge, pdf_split,excel_split
-from SEO_Tools from run_seo_downloader
+from SEO_Tools import run_seo_downloader
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(page_title="Automation Tool", layout="centered")
@@ -258,3 +258,4 @@ else:
                 if result.get("failed_excel"):
                         with open(result["failed_excel"], "rb") as f:
                             st.download_button("⬇ Download Failed Records",f,file_name="FAILED_RECORDS.xlsx")
+
