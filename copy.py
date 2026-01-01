@@ -229,33 +229,34 @@ else:
         
         elif tool == "PDF Downloader":
 
-        excel_file = st.file_uploader("Upload Excel File", type=["xlsx"])
+            excel_file = st.file_uploader("Upload Excel File", type=["xlsx"])
 
-        if excel_file:
-            df = pd.read_excel(excel_file)
-            st.dataframe(df.head())
+            if excel_file:
+                df = pd.read_excel(excel_file)
+                st.dataframe(df.head())
 
-            loan_col = st.selectbox("Loan ID Column", df.columns)
-            url_col = st.selectbox("PDF URL Column", df.columns)
-            folder_cols = st.multiselect("Folder Structure Columns", df.columns)
+                loan_col = st.selectbox("Loan ID Column", df.columns)
+                url_col = st.selectbox("PDF URL Column", df.columns)
+                folder_cols = st.multiselect("Folder Structure Columns", df.columns)
 
-            if st.button("🚀 Start Download"):
-                with st.spinner("Downloading & Zipping PDFs..."):
-                    result = run_seo_downloader(
-                        excel_file=excel_file,
-                        loan_id_col=loan_col,
-                        url_col=url_col,
-                        folder_columns=folder_cols
-                    )
+                if st.button("🚀 Start Download"):
+                    with st.spinner("Downloading & Zipping PDFs..."):
+                        result = run_seo_downloader(
+                            excel_file=excel_file,
+                            loan_id_col=loan_col,
+                            url_col=url_col,
+                            folder_columns=folder_cols
+                        )
 
-                st.success("✅ Download Completed")
-                st.write("Downloaded:", result["downloaded"])
-                st.write("Failed:", result["failed_count"])
+                    st.success("✅ Download Completed")
+                    st.write("Downloaded:", result["downloaded"])
+                    st.write("Failed:", result["failed_count"])
 
-                with open(result["zip_path"], "rb") as f:
-                    st.download_button("⬇ Download ZIP", f, file_name="PDFs.zip")
+                    with open(result["zip_path"], "rb") as f:
+                        st.download_button("⬇ Download ZIP", f, file_name="PDFs.zip")
 
-                if result.get("failed_excel"):
-                        with open(result["failed_excel"], "rb") as f:
-                            st.download_button("⬇ Download Failed Records",f,file_name="FAILED_RECORDS.xlsx")
+                    if result.get("failed_excel"):
+                            with open(result["failed_excel"], "rb") as f:
+                                st.download_button("⬇ Download Failed Records",f,file_name="FAILED_RECORDS.xlsx")
+
 
