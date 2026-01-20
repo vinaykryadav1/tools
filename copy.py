@@ -63,9 +63,8 @@
 
 #     elif script == "PDF Merge":
 #         files = st.file_uploader(
-#             "Upload PDF files",
-#             type=["pdf"],
-#             accept_multiple_files=True
+#             "Upload Zip containing PDFs",
+#             type=["zip"],
 #         )
         
 #     elif script == "PDF Split":
@@ -315,7 +314,7 @@ else:
     # PDF MERGE
     # --------------------------------------------------
     elif tool == "PDF Merge":
-        files = st.file_uploader("Upload PDF files", type=["pdf"], accept_multiple_files=True)
+        files = st.file_uploader("Upload ZIP containing PDFs", type=["zip"])
 
         if st.button("Merge PDFs"):
             if not files:
@@ -448,3 +447,4 @@ else:
                 if result.get("failed_excel"):
                         with open(result["failed_excel"], "rb") as f:
                             st.download_button("⬇ Download Failed Records",f,file_name="FAILED_RECORDS.xlsx")
+
