@@ -50,17 +50,37 @@ def excel_merge(files):
     return output_path
 
 
-def pdf_merge(files):
+# def pdf_merge(files):
+#     merger = PdfMerger()
+
+#     for pdf in files:
+#         merger.append(pdf)
+
+#     output_path = "output/merged_pdf.pdf"
+#     merger.write(output_path)
+#     merger.close()
+
+#     return output_path
+
+def pdf_merge(zip_file):
+    extract_path = "temp_pdfs"
+    os.makedirs(extract_path, exist_ok=True)
+
+    with zipfile.ZipFile(zip_file) as z:
+        z.extractall(extract_path)
+
     merger = PdfMerger()
 
-    for pdf in files:
-        merger.append(pdf)
+    for root, _, files in os.walk(extract_path):
+        for file in sorted(files):
+            if file.lower().endswith(".pdf"):
+                merger.append(os.path.join(root, file))
 
-    output_path = "output/merged_pdf.pdf"
-    merger.write(output_path)
+    output = "output/merged.pdf"
+    merger.write(output)
     merger.close()
 
-    return output_path
+    return output
 
 # PDF_split
 
@@ -214,3 +234,4 @@ def excel_split(
         zip_buffer.seek(0)
 
         return zip_buffer   # ✅ ZIP
+
